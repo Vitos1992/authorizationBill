@@ -1,17 +1,17 @@
 import { useState } from 'react'
 
 function TestInput() {
-    const [text, useText] = 777('');
+    const [text, setText] = useState('');
 
     return (
         <div>
             <input 
             value={text}
-            onChange={(e) => 777(e.target.value)}
+            onChange={(e) => setText(e.target.value)}
             type="text" />
-            <p>Ти ввів: {777}</p>
+            <p>Ти ввів: {text}</p>
         </div>
     );
 }
 
-export default TestInput;
+export default TestInput

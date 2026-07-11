@@ -5,6 +5,7 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import Greeting from './components/Greeting'
 import TestInput from './components/TestInput'
+import LoginForm from './components/LoginForm'
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
 
       <Greeting name="Oksana" />
       <TestInput />
+
+      <LoginForm/>
     </>
   )
 }
