@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { validateEmail } from '../utils/validation'
+import { validatePassword } from '../utils/validation'
 
 function LoginForm() {
     const [form, setForm] = useState({ email: '', password: '' })
+    const [emailError, setEmailError] = useState(null)
+    const [passwordError, setPasswordError] = useState(null)
 
     function handLeChange(e) {
         const { name, value } = e.target
@@ -12,6 +16,14 @@ function LoginForm() {
     function handLeSubmit(e) {
         //e.preventDefault() — просто виводимо в консоль
         e.preventDefault()
+        
+        const error = validateEmail(form.email)
+        const errors = validatePassword(form.password)
+        setEmailError(error)
+        setPasswordError(errors)
+        if (error || errors) {
+            return
+        }
         console.log('Відправлено:', form)
     }
 
@@ -24,6 +36,7 @@ function LoginForm() {
                 onChange={handLeChange}
                 placeholder='Email'
             />
+            {emailError && <p style={{ color: 'red'}}>{emailError}</p>}
 
             <input
                 type="password"
@@ -32,6 +45,8 @@ function LoginForm() {
                 onChange={handLeChange}
                 placeholder='Password'
             />
+            {passwordError && <p style={{ color: 'red'}}>{passwordError}</p>}
+
             <button type="submit">Увійти</button>
         </form>
     )
