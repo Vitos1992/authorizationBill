@@ -14,7 +14,7 @@ function App() {
       <p>My authorization prodect</p>
 
       <Greeting name="Oksana" />
-      <TestInput />
+      {/* <TestInput /> */}
 
       <LoginForm/>
     </>
