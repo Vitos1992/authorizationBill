@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { validateEmail } from '../utils/validation'
 import { validatePassword } from '../utils/validation'
 
-function LoginForm() {
+function LoginForm({ switchToRegister }) {
     const [form, setForm] = useState({ email: '', password: '' })
     const [emailError, setEmailError] = useState(null)
     const [passwordError, setPasswordError] = useState(null)
@@ -48,6 +48,8 @@ function LoginForm() {
             {passwordError && <p style={{ color: 'red'}}>{passwordError}</p>}
 
             <button type="submit">Увійти</button>
+
+            <button type="button" onClick={switchToRegister}>Зареєструватися</button>
         </form>
     )
 }
