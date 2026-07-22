@@ -20,7 +20,7 @@ function App() {
       )}
 
       {screen === 'register' && <RegisterForm switchToLogin={() => setScreen('login')}></RegisterForm>}
-      <p>My authorization prodect</p>
+      <p>My secure project</p>
 
       <Greeting name="Oksana" />
       {/* <TestInput /> */}

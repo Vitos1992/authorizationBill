@@ -23,7 +23,7 @@ function RegisterForm ({ switchToLogin }) {
         let confirmError = null
 
         if (formRegister.password !== formRegister.confirm) {
-            confirmError = 'Паролі не співпадають'
+            confirmError = 'The passwords do not match'
         }
 
         setRegisterEmailError(error)
@@ -33,7 +33,7 @@ function RegisterForm ({ switchToLogin }) {
         if (error || passwordErr || confirmError) {
             return
         }
-        console.log('Зареєстровано:', formRegister)
+        console.log('Registered:', formRegister)
     }
 
     return (
@@ -61,11 +61,11 @@ function RegisterForm ({ switchToLogin }) {
             name="confirm" 
             value={formRegister.confirm}
             onChange={handLeRegister}
-            placeholder="Підтвердіть пароль"
+            placeholder="Confirm password"
             />
             {registerConfirmError && <p style={{ color: 'red' }}>{registerConfirmError}</p>}
 
-            <button type="submit">Зареєструватися</button>
+            <button type="submit">Sign Up</button>
         </form>
 
     )
