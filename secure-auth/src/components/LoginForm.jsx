@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { validateEmail } from '../utils/validation'
 import { validatePassword } from '../utils/validation'
+import { useAuth } from '../context/AuthContext'
 
 function LoginForm({ switchToRegister }) {
+    const { login } = useAuth()  // деструктуризація ЗВИЧАЙНОГО ОБ'ЄКТА (з результату виклику функції)
+    
     const [form, setForm] = useState({ email: '', password: '' })
     const [emailError, setEmailError] = useState(null)
     const [passwordError, setPasswordError] = useState(null)
@@ -24,7 +27,12 @@ function LoginForm({ switchToRegister }) {
         if (error || errors) {
             return
         }
-        console.log('Відправлено:', form)
+        
+        try {
+            login(form.email, form.password)
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 
     return (

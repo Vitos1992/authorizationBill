@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { validateEmail } from "../utils/validation";
 import { validatePassword } from "../utils/validation";
+import { useAuth } from "../context/AuthContext";
 
-function RegisterForm ({ switchToLogin }) {
+function RegisterForm({ switchToLogin }) {
+    const { register } = useAuth()
+
     const [formRegister, setFormRegister] = useState({ email: '', password: '', confirm: '' })
     const [registerEmailError, setRegisterEmailError] = useState(null)
     const [registerPasswordError, setRegisterPasswordError] = useState(null)
@@ -33,39 +36,49 @@ function RegisterForm ({ switchToLogin }) {
         if (error || passwordErr || confirmError) {
             return
         }
-        console.log('Registered:', formRegister)
+
+        try {
+            register(formRegister.email, formRegister.password)
+            switchToLogin()
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 
     return (
         <form onSubmit={registerSubmit}>
-            <input 
-            type="email"
-            name="email"
-            value={formRegister.email}
-            onChange={handLeRegister}
-            placeholder="Email"
-
-            />
-            
-            <input 
-            type="password"
-            name="password"
-            value={formRegister.password}
-            onChange={handLeRegister}
-            placeholder="Password"
+            <input
+                type="email"
+                name="email"
+                value={formRegister.email}
+                onChange={handLeRegister}
+                placeholder="Email"
 
             />
 
-            <input 
-            type="password" 
-            name="confirm" 
-            value={formRegister.confirm}
-            onChange={handLeRegister}
-            placeholder="Confirm password"
+            <input
+                type="password"
+                name="password"
+                value={formRegister.password}
+                onChange={handLeRegister}
+                placeholder="Password"
+
+            />
+
+            <input
+                type="password"
+                name="confirm"
+                value={formRegister.confirm}
+                onChange={handLeRegister}
+                placeholder="Confirm password"
             />
             {registerConfirmError && <p style={{ color: 'red' }}>{registerConfirmError}</p>}
 
             <button type="submit">Sign Up</button>
+
+            {/* <button type="button" onClick={switchToLogin}>
+                Already have an account? Log In
+            </button> */}
         </form>
 
     )
