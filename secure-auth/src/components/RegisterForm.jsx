@@ -63,7 +63,7 @@ function RegisterForm({ switchToLogin }) {
                 onChange={handLeRegister}
                 placeholder="Password"
             />
-            <PasswordStrengthMeter password={formRegister.password} />
+            
 
             <input
                 type="password"
@@ -73,8 +73,10 @@ function RegisterForm({ switchToLogin }) {
                 placeholder="Confirm password"
             />
             {registerConfirmError && <p style={{ color: 'red' }}>{registerConfirmError}</p>}
+            
+            <PasswordStrengthMeter password={formRegister.password} />
 
-            <button type="submit">Sign Up</button>
+            <button type="submit">Зареєструватися</button>
 
             {/* <button type="button" onClick={switchToLogin}>
                 Already have an account? Log In

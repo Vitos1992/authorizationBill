@@ -55,9 +55,9 @@ function LoginForm({ switchToRegister }) {
             />
             {passwordError && <p style={{ color: 'red'}}>{passwordError}</p>}
 
-            <button type="submit">Log In</button>
+            <button type="submit">Увійти</button>
 
-            <button type="button" onClick={switchToRegister}>Sign Up</button>
+            <button type="button" onClick={switchToRegister}>Зареєструватися</button>
         </form>
     )
 }

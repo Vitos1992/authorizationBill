@@ -1,8 +1,7 @@
 
-
 function Greeting(props) {
     return (
-        <p>Hello, {props.name}! Welcome to SecureAuth.</p>
+        <p>Вітаю, {props.name}! Ласкаво прощу мій безпечний проєкт.</p>
     )
 }
 
