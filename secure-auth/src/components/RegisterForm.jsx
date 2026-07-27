@@ -2,6 +2,7 @@ import { useState } from "react";
 import { validateEmail } from "../utils/validation";
 import { validatePassword } from "../utils/validation";
 import { useAuth } from "../context/AuthContext";
+import PasswordStrengthMeter from "./PasswordStrengthMeter"; 
 
 function RegisterForm({ switchToLogin }) {
     const { register } = useAuth()
@@ -53,7 +54,6 @@ function RegisterForm({ switchToLogin }) {
                 value={formRegister.email}
                 onChange={handLeRegister}
                 placeholder="Email"
-
             />
 
             <input
@@ -62,8 +62,8 @@ function RegisterForm({ switchToLogin }) {
                 value={formRegister.password}
                 onChange={handLeRegister}
                 placeholder="Password"
-
             />
+            <PasswordStrengthMeter password={formRegister.password} />
 
             <input
                 type="password"
