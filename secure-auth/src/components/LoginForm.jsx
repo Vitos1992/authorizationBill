@@ -16,7 +16,7 @@ function LoginForm({ switchToRegister }) {
         setForm(prevForm => ({ ...prevForm, [name]: value }))
     }
 
-    function handLeSubmit(e) {
+    async function handLeSubmit(e) {
         //e.preventDefault() — просто виводимо в консоль
         e.preventDefault()
         
@@ -29,7 +29,7 @@ function LoginForm({ switchToRegister }) {
         }
         
         try {
-            login(form.email, form.password)
+            await login(form.email, form.password)
         } catch (err) {
             console.log(err.message)
         }

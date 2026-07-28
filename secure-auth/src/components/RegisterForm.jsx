@@ -19,7 +19,7 @@ function RegisterForm({ switchToLogin }) {
     }
 
 
-    function registerSubmit(e) {
+    async function registerSubmit(e) {
         e.preventDefault()
 
         const error = validateEmail(formRegister.email)
@@ -39,7 +39,7 @@ function RegisterForm({ switchToLogin }) {
         }
 
         try {
-            register(formRegister.email, formRegister.password)
+            await register(formRegister.email, formRegister.password)
             switchToLogin()
         } catch (err) {
             console.log(err.message)
