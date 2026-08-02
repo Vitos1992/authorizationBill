@@ -1,6 +1,39 @@
 import { useState } from "react";
-import { validateEmail } from "../utils/validation"; 
+import { useAuth } from "../context/AuthContext";
 
-function VerifyEmail() {
-    
+export default function VerifyEmail({ pendingEmail, previewCode, onVerified, switchToLogin }) {
+    const [verify, setVerify] = useState('')
+    const [verifyError, setVerifyError] = useState(null)
+    const { verifyEmail } = useAuth()
+
+    function handLeVerify(e) {
+        setVerify(e.target.value)
+    }
+
+    async function handLeSubmit(e) {
+        e.preventDefault()
+        try {
+            await verifyEmail(pendingEmail, verify)
+            onVerified()
+        } catch (err) {
+            setVerifyError(err.message)
+        }
+    }
+
+
+    return (
+        <form onSubmit={handLeSubmit}>
+            <p>Демо-код: {previewCode}</p>
+            <input 
+                type="text"
+                value={verify}
+                onChange={handLeVerify}
+                placeholder="Email"
+            />
+            {verifyError && <p style={{ color: 'red'}}>{verifyError}</p>}
+
+            <button type="submit">Підтвердити</button>
+            <button type="button" onClick={switchToLogin}>Назад до входу</button>
+        </form>
+    )
 }

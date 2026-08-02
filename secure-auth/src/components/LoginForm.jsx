@@ -9,10 +9,11 @@ function LoginForm({ switchToRegister }) {
     const [form, setForm] = useState({ email: '', password: '' })
     const [emailError, setEmailError] = useState(null)
     const [passwordError, setPasswordError] = useState(null)
+    const [loginError, setLoginError] = useState(null)
 
     function handLeChange(e) {
         const { name, value } = e.target
-        // Використовуємо  spread-щператор ... ;
+        // Використовуємо  spread-оператор ... ;
         setForm(prevForm => ({ ...prevForm, [name]: value }))
     }
 
@@ -31,6 +32,7 @@ function LoginForm({ switchToRegister }) {
         try {
             await login(form.email, form.password)
         } catch (err) {
+            setLoginError(err.message)
             console.log(err.message)
         }
     }
@@ -54,7 +56,7 @@ function LoginForm({ switchToRegister }) {
                 placeholder='Password'
             />
             {passwordError && <p style={{ color: 'red'}}>{passwordError}</p>}
-
+            {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
             <button type="submit">Увійти</button>
 
             <button type="button" onClick={switchToRegister}>Зареєструватися</button>

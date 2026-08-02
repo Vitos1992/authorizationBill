@@ -4,7 +4,7 @@ import { validatePassword } from "../utils/validation";
 import { useAuth } from "../context/AuthContext";
 import PasswordStrengthMeter from "./PasswordStrengthMeter"; 
 
-function RegisterForm({ switchToLogin }) {
+function RegisterForm({ switchToLogin, onRegistered }) {
     const { register } = useAuth()
 
     const [formRegister, setFormRegister] = useState({ email: '', password: '', confirm: '' })
@@ -39,10 +39,10 @@ function RegisterForm({ switchToLogin }) {
         }
 
         try {
-            await register(formRegister.email, formRegister.password)
-            switchToLogin()
+            const code = await register(formRegister.email, formRegister.password)
+            onRegistered({ email: formRegister.email, code })
         } catch (err) {
-            console.log(err.message)
+            setRegisterEmailError(err.message)
         }
     }
 
@@ -55,6 +55,7 @@ function RegisterForm({ switchToLogin }) {
                 onChange={handLeRegister}
                 placeholder="Email"
             />
+            {registerEmailError && <p style={{ color: 'red'}}>{registerEmailError}</p>}
 
             <input
                 type="password"
@@ -63,7 +64,7 @@ function RegisterForm({ switchToLogin }) {
                 onChange={handLeRegister}
                 placeholder="Password"
             />
-            
+            {registerPasswordError && <p style={{ color: 'red'}}>{registerPasswordError}</p>}
 
             <input
                 type="password"
@@ -78,9 +79,9 @@ function RegisterForm({ switchToLogin }) {
 
             <button type="submit">Зареєструватися</button>
 
-            {/* <button type="button" onClick={switchToLogin}>
-                Already have an account? Log In
-            </button> */}
+            <button type="button" onClick={switchToLogin}>
+                У вас вже є обліковий запис? Увійти
+            </button>
         </form>
 
     )
