@@ -21,3 +21,8 @@ export async function hashPassword(password, salt) {
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')                              
 
 }
+
+// генерація коду
+export function generateVerificationCode() {
+    return Math.floor(100000 + Math.random() * 900000).toString()
+}
