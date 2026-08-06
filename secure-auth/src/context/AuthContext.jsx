@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { generateSalt, generateVerificationCode, hashPassword } from "../utils/security";
 import { sendVerificationEmail } from "../utils/mockEmailService";
 
@@ -6,7 +6,15 @@ const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null)
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState(() => {
+        const saved = localStorage.getItem('users')
+        return saved ? JSON.parse(saved) : []
+    })
+    
+    // зберігання ключив в браузері
+    useEffect(() => {
+        localStorage.setItem('users', JSON.stringify(users))
+    }, [users])
 
     const value = {currentUser, register, login, logout, verifyEmail}
 
