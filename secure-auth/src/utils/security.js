@@ -26,3 +26,14 @@ export async function hashPassword(password, salt) {
 export function generateVerificationCode() {
     return Math.floor(100000 + Math.random() * 900000).toString()
 }
+
+const ATTEMPTS_KEY = 'login_attempts'
+
+function readAttempts() {
+    const saved = localStorage.getItem(ATTEMPTS_KEY)
+    return saved ? JSON.parse(saved) : {}
+}
+
+function writeAttempts() {
+    localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(data))
+}
