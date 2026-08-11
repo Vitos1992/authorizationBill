@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { generateSalt, generateVerificationCode, hashPassword } from "../utils/security";
+import { generateSalt, generateVerificationCode, hashPassword, getLockStatus, recordFailedAttempt, clearFailedAttempts } from "../utils/security";
 import { sendVerificationEmail } from "../utils/mockEmailService";
 
 const AuthContext = createContext(null)
@@ -59,6 +59,11 @@ export function AuthProvider({ children }) {
     }
 
     async function login(email, password) {
+        const lockStatus = getLockStatus(email)
+        if (lockStatus.locked) {
+            throw new Error(`Забагато невдалих спроб. Спробуйте через ${lockStatus.secondsLeft} с.`)
+        }
+
         const user = users.find(u => u.email === email)
         if (!user) {
             throw new Error('Невірний email або пароль')
@@ -66,15 +71,18 @@ export function AuthProvider({ children }) {
 
         const logHash = await hashPassword(password, user.salt)
         if (logHash !== user.passwordHash) {
-            throw new Error('Невірний email або пароль')
+            const remaining = recordFailedAttempt(email)
+            throw new Error(`Невірний email або пароль (залишилось спроб: ${Math.max(remaining, 0)})`)
         }
 
         if (!user.verified) {
             throw new Error('Пошту не підтверджено. Перевірте лист із кодом.')
         }
 
+        clearFailedAttempts(email) // скинуть лічильник
         setCurrentUser(user)
     }
+
     // повернення до форми після виходу 
     function logout() {
         setCurrentUser(null)

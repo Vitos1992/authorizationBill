@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { validateEmail } from '../utils/validation'
 import { validatePassword } from '../utils/validation'
 import { useAuth } from '../context/AuthContext'
+import { getLockStatus } from '../utils/security'
 
 function LoginForm({ switchToRegister }) {
     const { login } = useAuth()  // деструктуризація ЗВИЧАЙНОГО ОБ'ЄКТА (з результату виклику функції)
@@ -10,6 +11,16 @@ function LoginForm({ switchToRegister }) {
     const [emailError, setEmailError] = useState(null)
     const [passwordError, setPasswordError] = useState(null)
     const [loginError, setLoginError] = useState(null)
+    const [lockInfo, setLockInfo] = useState({ locked: false, secondsLeft: 0 })
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (form.email) {
+                setLockInfo(getLockStatus(form.email))
+            }
+        }, 1000)
+        return () => clearInterval(intervalId)
+    }, [form.email])
 
     function handLeChange(e) {
         const { name, value } = e.target
@@ -57,7 +68,15 @@ function LoginForm({ switchToRegister }) {
             />
             {passwordError && <p style={{ color: 'red'}}>{passwordError}</p>}
             {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
-            <button type="submit">Увійти</button>
+            
+            {/* лічильник відрахування спроб */}
+            {lockInfo.locked && (
+                <p style={{ color: 'red' }}>
+                    Забагато спроб. Спробуйте через {lockInfo.secondsLeft} с.
+                </p>
+            )}
+
+            <button type="submit" disabled={lockInfo.locked}>Увійти</button>
 
             <button type="button" onClick={switchToRegister}>Зареєструватися</button>
         </form>
