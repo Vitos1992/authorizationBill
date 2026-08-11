@@ -27,13 +27,52 @@ export function generateVerificationCode() {
     return Math.floor(100000 + Math.random() * 900000).toString()
 }
 
+// захист від брутфорсу
 const ATTEMPTS_KEY = 'login_attempts'
+const MAX_ATTEMPTS = 5  // кількість спроб
+const LOCK_DURATION_MS = 60 * 1000  // затримка
 
 function readAttempts() {
     const saved = localStorage.getItem(ATTEMPTS_KEY)
     return saved ? JSON.parse(saved) : {}
 }
 
-function writeAttempts() {
+function writeAttempts(data) {
     localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(data))
+}
+
+//перевірка блокування невдалих спроб
+export function getLockStatus(email) {
+    const attempts = readAttempts()
+    const record = attempts[email]
+
+    if (!record) return { locked: false }
+
+    if (record.count >= MAX_ATTEMPTS) {
+        const elapsed = Date.now() - record.lastAttempt
+        if (elapsed < LOCK_DURATION_MS) {
+            const secondsLeft = Math.ceil((LOCK_DURATION_MS - elapsed) / 1000)
+            return { locked: true, secondsLeft }
+        }
+    }
+    return { locked: false }
+}
+
+export function recordFailedAttempt(email) {
+    const attempts = readAttempts()
+    const record = attempts[email] || { count: 0, lastAttempt: 0 }
+
+    record.count = record.count + 1
+    record.lastAttempt = Date.now()
+
+    attempts[email] = record
+    writeAttempts(attempts)
+
+    return MAX_ATTEMPTS - record.count
+}
+
+export function clearFailedAttempts(email) {
+    const attempts = readAttempts()
+    delete attempts[email]
+    writeAttempts(attempts)
 }
