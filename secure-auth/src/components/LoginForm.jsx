@@ -57,7 +57,7 @@ function LoginForm({ switchToRegister }) {
                 onChange={handLeChange}
                 placeholder='Email'
             />
-            {emailError && <p style={{ color: 'red'}}>{emailError}</p>}
+            {emailError && <p className='form-error'>{emailError}</p>}
 
             <input
                 type="password"
@@ -66,12 +66,12 @@ function LoginForm({ switchToRegister }) {
                 onChange={handLeChange}
                 placeholder='Password'
             />
-            {passwordError && <p style={{ color: 'red'}}>{passwordError}</p>}
-            {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+            {passwordError && <p className='form-error'>{passwordError}</p>}
+            {loginError && <p className='form-error'>{loginError}</p>}
             
             {/* лічильник відрахування спроб */}
             {lockInfo.locked && (
-                <p style={{ color: 'red' }}>
+                <p className='form-error'>
                     Забагато спроб. Спробуйте через {lockInfo.secondsLeft} с.
                 </p>
             )}

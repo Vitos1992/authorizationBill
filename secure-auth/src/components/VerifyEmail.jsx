@@ -30,7 +30,7 @@ export default function VerifyEmail({ pendingEmail, previewCode, onVerified, swi
                 onChange={handLeVerify}
                 placeholder="Email"
             />
-            {verifyError && <p style={{ color: 'red'}}>{verifyError}</p>}
+            {verifyError && <p className='form-error'>{verifyError}</p>}
 
             <button type="submit">Підтвердити</button>
             <button type="button" onClick={switchToLogin}>Назад до входу</button>

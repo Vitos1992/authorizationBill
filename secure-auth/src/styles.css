@@ -31,6 +31,31 @@ body {
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 32px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+h1 {
+    font-size: 20px;
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+p {
+    color: var(--muted);
+    font-size: 16px;
+    text-align: center;
 }
 
 input {
@@ -62,9 +87,13 @@ button {
 }
 
 button[type="submit"] {
-    background: var(--bg);
+    background: var(--accent);
     color: #05221f;
     width: 100%;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.9;
 }
 
 button[type="button"] {
@@ -72,5 +101,20 @@ button[type="button"] {
     color: var(--accent);
     border: none;
     padding: 8px 0;
+}
+
+button[type="button"]:hover {
+    text-decoration: underline;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-error {
+    color: var(--danger);
+    font-size: 13px;
+    margin: 0 0 12px;
 }
 

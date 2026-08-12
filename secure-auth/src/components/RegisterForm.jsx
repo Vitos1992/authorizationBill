@@ -55,7 +55,7 @@ function RegisterForm({ switchToLogin, onRegistered }) {
                 onChange={handLeRegister}
                 placeholder="Email"
             />
-            {registerEmailError && <p style={{ color: 'red'}}>{registerEmailError}</p>}
+            {registerEmailError && <p className='form-error'>{registerEmailError}</p>}
 
             <input
                 type="password"
@@ -64,7 +64,7 @@ function RegisterForm({ switchToLogin, onRegistered }) {
                 onChange={handLeRegister}
                 placeholder="Password"
             />
-            {registerPasswordError && <p style={{ color: 'red'}}>{registerPasswordError}</p>}
+            {registerPasswordError && <p className='form-error'>{registerPasswordError}</p>}
 
             <input
                 type="password"
@@ -73,7 +73,7 @@ function RegisterForm({ switchToLogin, onRegistered }) {
                 onChange={handLeRegister}
                 placeholder="Confirm password"
             />
-            {registerConfirmError && <p style={{ color: 'red' }}>{registerConfirmError}</p>}
+            {registerConfirmError && <p className='form-error'>{registerConfirmError}</p>}
             
             <PasswordStrengthMeter password={formRegister.password} />
 
