@@ -17,7 +17,7 @@ function App() {
   const [screen, setScreen] = useState('login')
   const { currentUser, logout } = useAuth()
   const [pending, setPending] = useState({ email: null, code: null })
- // підтведження реєстрації
+  // підтведження реєстрації
   if (currentUser) {
     return (
       <div>
@@ -31,35 +31,39 @@ function App() {
 
   return (
     <>
-      <h1>SecureAuth</h1>
-      {screen === 'login' && (
-        <LoginForm switchToRegister={() => setScreen('register')}></LoginForm>
-      )}
+      <div className='app-shell'>
+        <div className='auth-card'>
+          <h1>SecureAuth</h1>
+          {screen === 'login' && (
+            <LoginForm switchToRegister={() => setScreen('register')}></LoginForm>
+          )}
 
-      {screen === 'register' && (
-        <RegisterForm 
-          switchToLogin={() => setScreen('login')}
-          onRegistered={({ email, code }) => {
-            setPending({ email, code })
-            setScreen('verify')
-          }}
-        />
-      )}
-      
-      {screen === 'verify' && (
-        <VerifyEmail 
-          pendingEmail={pending.email}
-          previewCode={pending.code}
-          onVerified={() => setScreen('login')}
-          switchToLogin={() => setScreen('login')}
-        />
-      )}
-      <p>Мій безпечний проєкт</p>
+          {screen === 'register' && (
+            <RegisterForm
+              switchToLogin={() => setScreen('login')}
+              onRegistered={({ email, code }) => {
+                setPending({ email, code })
+                setScreen('verify')
+              }}
+            />
+          )}
 
-      <Greeting name="Друзі" />
-      {/* <TestInput /> */}
+          {screen === 'verify' && (
+            <VerifyEmail
+              pendingEmail={pending.email}
+              previewCode={pending.code}
+              onVerified={() => setScreen('login')}
+              switchToLogin={() => setScreen('login')}
+            />
+          )}
+          <p>Мій безпечний проєкт</p>
 
-      {/* <LoginForm/> */}
+          <Greeting name="Друзі" />
+          {/* <TestInput /> */}
+
+          {/* <LoginForm/> */}
+        </div>
+      </div>
     </>
   )
 }
